@@ -2,7 +2,8 @@
 __pycache__/
 *.pyc
 logs/
-reports/
 .venv/
 .DS_Store
 config/config.yaml
+*.pdf
+*.exe
