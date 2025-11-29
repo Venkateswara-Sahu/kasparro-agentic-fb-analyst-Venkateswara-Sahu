@@ -1,0 +1,9 @@
+pandas
+pyyaml
+langchain
+langchain-openai
+langchain-anthropic
+langchain-google-genai
+langchain-ollama
+langchain-core
+pytest
