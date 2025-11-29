@@ -26,10 +26,14 @@ class DataAgent:
         Returns:
             dict: Processed data summary
         """
-        # Calculate metrics
+        # Ensure date is datetime
         data['date'] = pd.to_datetime(data['date'])
-        data['roas'] = data['revenue'] / data['spend']
-        data['ctr'] = (data['clicks'] / data['impressions']) * 100
+        
+        # Calculate metrics if needed
+        if 'roas' not in data.columns:
+            data['roas'] = data['revenue'] / data['spend']
+        if 'ctr' not in data.columns:
+            data['ctr'] = (data['clicks'] / data['impressions']) * 100
         
         # Recent data (last 7 days)
         recent = data[data['date'] >= (data['date'].max() - timedelta(days=7))]
@@ -44,8 +48,10 @@ class DataAgent:
             "avg_ctr": float(data['ctr'].mean()),
             "recent_avg_roas": float(recent['roas'].mean()) if not recent.empty else 0.0,
             "recent_avg_ctr": float(recent['ctr'].mean()) if not recent.empty else 0.0,
-            "roas_trend": [float(x) for x in data.set_index('date')['roas'].tolist()],
-            "low_ctr_campaigns": data[data['ctr'] < 1]['ad_name'].unique().tolist()
+            "roas_trend": [float(x) for x in data.groupby('date')['roas'].mean().tolist()],
+            "low_ctr_campaigns": data[data['ctr'] < 1]['campaign_name'].unique().tolist(),
+            "top_platforms": data.groupby('platform')['revenue'].sum().to_dict(),
+            "creative_performance": data.groupby('creative_type')['roas'].mean().to_dict()
         }
         
         return summary
