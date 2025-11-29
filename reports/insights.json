@@ -1,0 +1,12 @@
+[
+  {
+    "hypothesis": "ROAS drop due to low CTR",
+    "evidence": "CTR below 1%",
+    "confidence": 0.8
+  },
+  {
+    "hypothesis": "Seasonal trends affecting performance",
+    "evidence": "Recent data shows decline",
+    "confidence": 0.7
+  }
+]
